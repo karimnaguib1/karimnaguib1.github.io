@@ -1,0 +1,863 @@
+<title>Karim Portfolio</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap">
+<style>
+  /* Layout: cover (name small, track huge, portrait right), then sections with a centered title, photo left, content right; fixed vertical nav on the right edge with scroll highlight. Single light look by choice. */
+  :root {
+    --white: #FFFFFF;
+    --beige: #F0E6D6;
+    --brown: #6B4A32;
+    --black: #15120F;
+    --muted: #5E544B;
+    --line: #D9CBB8;
+    --ph-a: #EBDDC8;
+    --ph-b: #D8C4A6;
+    --font-display: 'Cormorant Garamond', 'Times New Roman', serif;
+    --font-body: 'DM Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-mono: 'DM Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+    color-scheme: light;
+  }
+
+  /* ---------- Base: page defaults (colors, font, smooth scrolling) ---------- */
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    background: var(--white);
+    color: var(--black);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--brown);
+    outline-offset: 3px;
+  }
+
+  /* Content wrapper: keeps the right side clear for the vertical nav on desktop */
+  .wrap {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+
+  @media (min-width: 900px) {
+    .wrap {
+      padding-left: max(48px, env(safe-area-inset-left, 0px));
+      padding-right: max(128px, env(safe-area-inset-right, 0px));
+    }
+  }
+
+  /* ---------- Vertical nav ---------- */
+  .topbar {
+    display: none;
+  }
+
+  .side {
+    position: fixed;
+    right: max(22px, env(safe-area-inset-right, 0px));
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 20;
+  }
+
+  .side ul {
+    list-style: none;
+    margin: 0;
+    padding: 0 18px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    border-right: 1px solid var(--line);
+  }
+
+  .side a {
+    display: block;
+    position: relative;
+    padding: 6px 0;
+    text-align: right;
+    text-decoration: none;
+    font: 500 0.74rem/1 var(--font-mono);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    transition: color 0.25s, transform 0.25s;
+  }
+
+  .side a::after {
+    content: "";
+    position: absolute;
+    left: calc(100% + 18.5px);
+    top: 50%;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--line);
+    transform: translate(-50%, -50%);
+    transition: background 0.25s, transform 0.25s;
+  }
+
+  .side a:hover {
+    color: var(--black);
+  }
+
+  .side a.active {
+    color: var(--brown);
+    transform: translateX(-4px);
+  }
+
+  .side a.active::after {
+    background: var(--brown);
+    transform: translate(-50%, -50%) scale(1.7);
+  }
+
+  /* ---------- Cover ---------- */
+  .cover {
+    background: var(--white);
+  }
+
+  .cover .grid {
+    display: grid;
+    grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+    gap: clamp(32px, 6vw, 88px);
+    align-items: center;
+    padding-block: clamp(48px, 8vw, 104px);
+  }
+
+  .hi {
+    margin: 0 0 8px;
+    font-size: 0.95rem;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+  }
+
+  .cover h1 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(2.6rem, 6vw, 5.2rem);
+    line-height: 1;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+
+  .cover h1 em {
+    display: block;
+    font-style: italic;
+    color: var(--brown);
+  }
+
+  .lead {
+    max-width: 30ch;
+    margin: 28px 0 32px;
+    font-size: 1.15rem;
+    color: var(--muted);
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 13px 30px;
+    border-radius: 999px;
+    background: var(--brown);
+    color: var(--white);
+    font-weight: 500;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    transition: background 0.25s, transform 0.25s;
+  }
+
+  .btn:hover {
+    background: var(--black);
+    transform: translateY(-1px);
+  }
+
+  .dart {
+    margin: 44px 0 0;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+    width: max-content;
+    max-width: 100%;
+    white-space: nowrap;
+    font: 400 0.8rem/1.5 var(--font-mono);
+    color: var(--brown);
+  }
+
+  /* ---------- Sections: shared spacing, centered title, photo-left / text-right layout ---------- */
+  .sec {
+    padding-block: clamp(64px, 9vw, 112px);
+    scroll-margin-top: 0;
+  }
+
+  .sec.beige {
+    background: var(--beige);
+  }
+
+  .sec-title {
+    margin: 0 0 clamp(36px, 5vw, 64px);
+    text-align: center;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(2.4rem, 5vw, 3.6rem);
+    line-height: 1.05;
+    text-wrap: balance;
+  }
+
+  .sec-title::after {
+    content: "";
+    display: block;
+    width: 44px;
+    height: 1px;
+    margin: 18px auto 0;
+    background: var(--brown);
+  }
+
+  .split {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: clamp(28px, 5vw, 72px);
+    align-items: center;
+  }
+
+  .split>* {
+    min-width: 0;
+  }
+
+  /* Section without a photo: one centered column */
+  .split.solo {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .split.solo .body p,
+  .split.solo .facts {
+    max-width: none;
+  }
+
+  .body p {
+    margin: 0 0 1.1em;
+    max-width: 60ch;
+  }
+
+  .body p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Photo box: rounded frame; the image fills it (beige shows if the image is missing) */
+  .ph {
+    position: relative;
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    aspect-ratio: 4 / 5;
+    border-radius: 20px;
+    overflow: hidden;
+    background: linear-gradient(160deg, var(--ph-a), var(--ph-b));
+    border: 1px solid rgba(107, 74, 50, 0.22);
+  }
+
+  /* Project posters are tall (2:3), so Work images use a portrait box */
+  .ph.wide {
+    aspect-ratio: 2 / 3;
+  }
+
+  .ph img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* ---------- About: facts list ---------- */
+  .facts {
+    margin: 28px 0 0;
+    display: grid;
+    gap: 0;
+    max-width: 60ch;
+  }
+
+  .facts div {
+    display: grid;
+    grid-template-columns: 7.5rem minmax(0, 1fr);
+    gap: 16px;
+    padding: 12px 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .facts div:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .facts dt,
+  .label {
+    font: 500 0.74rem/1.6 var(--font-mono);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--brown);
+  }
+
+  .facts dd {
+    margin: 0;
+  }
+
+  /* ---------- Skills: groups and tag pills ---------- */
+  .skill-rows {
+    margin: 0;
+  }
+
+  .skill-rows .row {
+    padding: 20px 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .skill-rows .row:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .skill-rows dt {
+    margin-bottom: 12px;
+  }
+
+  .skill-rows dd {
+    margin: 0;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .tags li {
+    padding: 5px 13px;
+    border: 1px solid var(--brown);
+    border-radius: 999px;
+    font: 400 0.8rem/1.4 var(--font-mono);
+    color: var(--black);
+  }
+
+  /* ---------- Work: project blocks ---------- */
+  .projects {
+    display: grid;
+    gap: clamp(48px, 7vw, 88px);
+  }
+
+  .project h3 {
+    margin: 0 0 4px;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(1.9rem, 3.4vw, 2.5rem);
+    line-height: 1.1;
+  }
+
+  .status {
+    display: inline-block;
+    margin-bottom: 14px;
+    font: 500 0.72rem/1 var(--font-mono);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--brown);
+  }
+
+  .project .tags {
+    margin-top: 20px;
+  }
+
+  /* ---------- Contact: email box and social links ---------- */
+  .contact {
+    min-height: 70vh;
+  }
+
+  .contact .big {
+    margin: 0 0 24px;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(1.8rem, 3.4vw, 2.6rem);
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+
+  .mail-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin: 28px 0 24px;
+  }
+
+  .mail {
+    padding: 10px 16px;
+    border: 1px solid var(--brown);
+    border-radius: 10px;
+    font: 400 0.95rem/1.3 var(--font-mono);
+    user-select: all;
+    overflow-wrap: anywhere;
+  }
+
+  .copy {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    padding: 10px 4px;
+    font: 500 0.85rem var(--font-body);
+    color: var(--brown);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    cursor: pointer;
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+
+  .links a {
+    font: 500 0.8rem/1 var(--font-mono);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--black);
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--brown);
+    transition: color 0.25s;
+  }
+
+  .links a:hover {
+    color: var(--brown);
+  }
+
+  /* ---------- Footer ---------- */
+  footer {
+    border-top: 1px solid var(--line);
+    background: var(--white);
+  }
+
+  footer .wrap {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px;
+    padding-block: 28px;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+
+  /* ---------- Tablet and phone ---------- */
+  @media (max-width: 899px) {
+    body {
+      padding-top: 56px;
+    }
+
+    .topbar {
+      display: flex;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 30;
+      align-items: center;
+      justify-content: space-between;
+      padding: calc(env(safe-area-inset-top, 0px) + 10px) max(16px, env(safe-area-inset-right, 0px)) 10px max(16px, env(safe-area-inset-left, 0px));
+      background: var(--white);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 1.5rem;
+      line-height: 36px;
+      text-decoration: none;
+    }
+
+    .menu-btn {
+      appearance: none;
+      height: 36px;
+      padding: 0 16px;
+      border: 1px solid var(--brown);
+      border-radius: 999px;
+      background: transparent;
+      color: var(--brown);
+      font: 500 0.75rem var(--font-mono);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .side {
+      display: none;
+      top: calc(env(safe-area-inset-top, 0px) + 57px);
+      right: 0;
+      left: 0;
+      transform: none;
+      padding: 6px max(16px, env(safe-area-inset-right, 0px)) 14px max(16px, env(safe-area-inset-left, 0px));
+      background: var(--white);
+      border-bottom: 1px solid var(--line);
+    }
+
+    body.menu-open .side {
+      display: block;
+    }
+
+    .side ul {
+      border: 0;
+      padding: 0;
+      gap: 0;
+    }
+
+    .side a {
+      text-align: left;
+      padding: 15px 0;
+      font-size: 0.82rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .side li:last-child a {
+      border-bottom: 0;
+    }
+
+    .side a::after {
+      display: none;
+    }
+
+    .side a.active {
+      transform: none;
+    }
+
+    .sec {
+      scroll-margin-top: 56px;
+    }
+
+    .cover .grid,
+    .split {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .cover .ph {
+      max-width: 420px;
+    }
+
+    .split .ph {
+      max-width: 460px;
+    }
+
+    .split .ph.wide {
+      max-width: 360px;
+    }
+
+    .facts div {
+      grid-template-columns: 6.5rem minmax(0, 1fr);
+    }
+
+    .contact {
+      min-height: 0;
+    }
+
+    .dart {
+      font-size: 0.7rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    * {
+      transition: none !important;
+    }
+  }
+</style>
+
+<!-- ===== MOBILE TOP BAR (shown only on phones/tablets): name + Menu button ===== -->
+<header class="topbar">
+  <a class="brand" href="#top">Karim</a>
+  <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
+</header>
+
+<!-- ===== SIDE MENU (vertical on the right on desktop, dropdown on phones) =====
+     Each link goes to the section with the same id. The section you are viewing gets highlighted automatically. -->
+<nav class="side" id="nav" aria-label="Sections">
+  <ul>
+    <li><a href="#about" data-s="about">About</a></li>
+    <li><a href="#skills" data-s="skills">Skills</a></li>
+    <li><a href="#work" data-s="work">Work</a></li>
+    <li><a href="#contact" data-s="contact">Contact</a></li>
+  </ul>
+</nav>
+
+<main>
+  <!-- ===== COVER: your name, big title, short sentence, button, and portrait on the right ===== -->
+  <section class="cover" id="top">
+    <div class="wrap grid">
+      <div>
+        <p class="hi">Hi, I'm Karim Naguib</p>
+        <h1>Mobile App <em>Development</em></h1>
+        <p class="lead">I build clean, colorful mobile apps people enjoy using.</p>
+        <a class="btn" href="#work">See my work</a>
+        <p class="dart">void main() =&gt; runApp(const Karim());</p>
+      </div>
+
+      <!-- Photo: put your image at images/me.jpg (change the file name here if yours is different) -->
+      <div class="ph">
+        <img src="images/me.jpg" alt="Portrait of Karim" onerror="this.style.display='none'">
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ABOUT: title in the middle, text centered below it ===== -->
+  <section class="sec beige" id="about">
+    <div class="wrap">
+      <h2 class="sec-title">About</h2>
+      <div class="split solo">
+        <div class="body">
+          <p>I'm a Flutter and Dart developer. I'm learning mobile development through a scholarship program and
+            building real apps as I go.</p>
+          <p>I like turning messy ideas into something organized and good to look at. Color, spacing and small visual
+            details matter to me as much as clean code and a simple project structure.</p>
+          <p>I also love explaining. When I learn something new, I try to teach it back in plain words, so I keep notes
+            on the things that took me a while to understand.</p>
+          <!-- Small facts list under the About text (Building / Learning / Enjoys) -->
+          <dl class="facts">
+            <div>
+              <dt>Building</dt>
+              <dd>Flutter apps with Bloc and a Dart backend</dd>
+            </div>
+            <div>
+              <dt>Learning</dt>
+              <dd>Dart, OOP and mobile architecture</dd>
+            </div>
+            <div>
+              <dt>Enjoys</dt>
+              <dd>Organizing ideas, color, sketching, teaching</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SKILLS: title in the middle, skill groups centered below it =====
+       To add a skill, copy one <li>Flutter</li> line and change the word. -->
+  <section class="sec" id="skills">
+    <div class="wrap">
+      <h2 class="sec-title">Skills</h2>
+      <div class="split solo">
+        <dl class="skill-rows">
+          <div class="row">
+            <dt class="label">Mobile</dt>
+            <dd>
+              <ul class="tags">
+                <li>Flutter</li>
+                <li>Dart</li>
+                <li>Material UI</li>
+                <li>Responsive layouts</li>
+                <li>Reusable widgets</li>
+                <li>Named routes</li>
+              </ul>
+            </dd>
+          </div>
+          <div class="row">
+            <dt class="label">State and data</dt>
+            <dd>
+              <ul class="tags">
+                <li>Bloc</li>
+                <li>Cubit</li>
+                <li>REST APIs</li>
+                <li>Serverpod</li>
+              </ul>
+            </dd>
+          </div>
+          <div class="row">
+            <dt class="label">Also learning</dt>
+            <dd>
+              <ul class="tags">
+                <li>Python</li>
+                <li>OOP</li>
+                <li>Git</li>
+              </ul>
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== WORK: one block (<article>) per project: image on the left, details on the right =====
+       To add a project, copy a whole <article> ... </article> block and change the name, text and tools. -->
+  <section class="sec beige" id="work">
+    <div class="wrap">
+      <h2 class="sec-title">Work</h2>
+      <div class="projects">
+        <!-- Project 1: Malaab -->
+        <article class="split project">
+          <!-- Photo: put your image at images/malaab.jpg (change the file name here if yours is different) -->
+          <div class="ph wide">
+            <img src="images/malaab.jpg" alt="Malaab app screenshots" onerror="this.style.display='none'">
+          </div>
+          <div class="body">
+            <span class="status">In progress</span>
+            <h3>Malaab</h3>
+            <p>A booking app for 5-a-side football pitches. Players find pitches on a map or in a nearby list, check
+              photos, pitch type and price per hour, then book an hour and pay online. Owners get their own app, built
+              from the same codebase with Flutter flavors.</p>
+            <ul class="tags">
+              <li>Flutter</li>
+              <li>Bloc</li>
+              <li>Google Maps</li>
+              <li>Payments</li>
+              <li>Serverpod</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- Project 2: Second Brain -->
+        <article class="split project">
+          <!-- Photo: put your image at images/second-brain.jpg (change the file name here if yours is different) -->
+          <div class="ph wide">
+            <img src="images/second-brain.jpg" alt="Second Brain app screenshots" onerror="this.style.display='none'">
+          </div>
+          <div class="body">
+            <span class="status">In progress</span>
+            <h3>Second Brain</h3>
+            <p>An all-in-one app for notes, organizing ideas and thinking visually. It is my graduation project.</p>
+            <ul class="tags">
+              <li>Flutter</li>
+              <li>Dart</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- Project 3: Markiti -->
+        <article class="split project">
+          <!-- Photo: put your image at images/markiti.jpg (change the file name here if yours is different) -->
+          <div class="ph wide">
+            <img src="images/markiti.jpg" alt="Markiti app screenshots" onerror="this.style.display='none'">
+          </div>
+          <div class="body">
+            <span class="status">Flutter course</span>
+            <h3>Markiti</h3>
+            <p>Screens I built during my Flutter course: a login and sign-up flow with a gradient background, a news
+              grid with image cards, and a set of reusable custom widgets.</p>
+            <ul class="tags">
+              <li>Flutter</li>
+              <li>Dart</li>
+              <li>Bloc</li>
+              <li>Cubit</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTACT: photo on the left, email and social links on the right ===== -->
+  <section class="sec contact" id="contact">
+    <div class="wrap">
+      <h2 class="sec-title">Contact</h2>
+      <div class="split">
+        <!-- Photo: put your image at images/contact.jpg (change the file name here if yours is different) -->
+        <div class="ph">
+          <img src="images/contact.jpg" alt="Karim" onerror="this.style.display='none'">
+        </div>
+        <div class="body">
+          <p class="big">Have an idea for an app? Let's talk.</p>
+          <p>I'm ready to help you to bring your ideas to life. Send me a short note about what you're building.
+          </p>
+          <!-- Your email + Copy button: change the email text inside id="mailText" -->
+          <div class="mail-row">
+            <span class="mail" id="mailText">your.email@example.com</span>
+            <button class="copy" id="copyBtn" type="button">Copy email</button>
+          </div>
+          <!-- Social links: put your own profile URLs in href -->
+          <div class="links">
+            <a href="https://www.linkedin.com/in/karim-naguib1/" target="_blank" rel="noopener">LinkedIn</a>
+            <a href="https://github.com/karimnaguib1/" target="_blank" rel="noopener">GitHub</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="wrap">
+    <span>Karim, Flutter Developer</span>
+    <span id="year">2026</span>
+  </div>
+</footer>
+
+<!-- ===== SCRIPT: small JavaScript for the menu highlight, mobile menu, photo upload preview and copy-email button ===== -->
+<script>
+  (function () {
+    // The sections the side menu should track while scrolling
+    var ids = ['top', 'about', 'skills', 'work', 'contact'];
+    var links = document.querySelectorAll('.side a');
+
+    // Marks the matching menu link as active
+    function setActive(id) {
+      if (id === 'top') id = '';
+      links.forEach(function (a) {
+        var on = a.getAttribute('data-s') === id;
+        a.classList.toggle('active', on);
+        if (on) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
+      });
+    }
+
+    // Highlight the section that crosses the middle of the screen
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {if (e.isIntersecting) setActive(e.target.id);});
+      }, {rootMargin: '-45% 0px -50% 0px', threshold: 0});
+      ids.forEach(function (id) {var el = document.getElementById(id); if (el) io.observe(el);});
+    }
+    window.addEventListener('scroll', function () {
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) setActive('contact');
+    }, {passive: true});
+
+    // Mobile menu: Menu button opens/closes the dropdown
+    var btn = document.getElementById('menuBtn');
+    function closeMenu() {document.body.classList.remove('menu-open'); btn.setAttribute('aria-expanded', 'false');}
+    btn.addEventListener('click', function () {
+      var open = document.body.classList.toggle('menu-open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    links.forEach(function (a) {a.addEventListener('click', closeMenu);});
+
+    // Copy email
+    var copyBtn = document.getElementById('copyBtn');
+    var mailText = document.getElementById('mailText');
+    copyBtn.addEventListener('click', function () {
+      function done() {copyBtn.textContent = 'Copied'; setTimeout(function () {copyBtn.textContent = 'Copy email';}, 1600);}
+      function fallback() {
+        var r = document.createRange(); r.selectNodeContents(mailText);
+        var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      }
+      try {
+        navigator.clipboard.writeText(mailText.textContent).then(done, fallback);
+      } catch (e) {fallback();}
+    });
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+  })();
+</script>
